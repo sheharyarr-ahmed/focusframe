@@ -21,12 +21,17 @@ Package.resolved
 .env
 .env.local
 *.xcconfig.local
+Secrets.xcconfig
 secrets.plist
 APIKeys.swift
 
 # IDE
 .vscode/
 .idea/
+
+# Claude Code
+CLAUDE.local.md
+.claude/settings.local.json
 
 # Misc
 *.log
