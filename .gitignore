@@ -1,0 +1,32 @@
+# Xcode
+build/
+DerivedData/
+*.xcuserstate
+*.xcuserdatad/
+xcuserdata/
+*.xcscmblueprint
+*.xccheckout
+.swiftpm/
+.build/
+Packages/
+Package.resolved
+*.moved-aside
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Secrets
+.env
+.env.local
+*.xcconfig.local
+secrets.plist
+APIKeys.swift
+
+# IDE
+.vscode/
+.idea/
+
+# Misc
+*.log
