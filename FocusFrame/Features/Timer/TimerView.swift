@@ -3,6 +3,7 @@ import SwiftUI
 struct TimerView: View {
     @Environment(AppState.self) private var state
     @State private var goalDraft: String = ""
+    @State private var isShowingSettings: Bool = false
 
     var body: some View {
         NavigationStack {
@@ -13,6 +14,19 @@ struct TimerView: View {
             }
             .navigationTitle("Focus")
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        isShowingSettings = true
+                    } label: {
+                        Image(systemName: "gear")
+                    }
+                    .accessibilityLabel("Settings")
+                }
+            }
+            .sheet(isPresented: $isShowingSettings) {
+                SettingsView()
+            }
         }
     }
 

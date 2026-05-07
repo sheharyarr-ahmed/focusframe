@@ -101,14 +101,15 @@ No `temperature` override — use the default. No `tool_use`, no `stream` (v1 di
 
 | HTTP status | Cause | `ClaudeServiceError` case | Recovery |
 | --- | --- | --- | --- |
-| 401 | Invalid or missing API key | `.unauthorized` | Surface a banner in `SettingsView` prompting re-entry. Clear the Keychain entry. |
+| (pre-flight) | Keychain returned `nil` — no key configured | `.missingAPIKey` | Surface a banner in `SettingsView` prompting key entry. No HTTP request was made. |
+| 401 | Server rejected the key (invalid / revoked) | `.invalidAPIKey` | Surface a banner in `SettingsView` prompting re-entry. Clear the Keychain entry. |
 | 403 | Permissions / org-level block | `.forbidden` | Surface error; user must contact Anthropic. |
 | 429 | Rate limited | `.rateLimited(retryAfter:)` | Read `retry-after` header. Exponential backoff: retry once after the header value (or 4s default), then twice more at 2× / 4× the previous delay. After 3 failures, give up for this session. |
 | 5xx | Server error | `.serverError(statusCode:)` | Persist the `Session` without an `Insight`. On next app launch, scan for sessions without insights from the last 24h and offer a "Generate insight" affordance. Do not auto-retry on a timer — that drains battery. |
-| Network error / timeout | Offline, DNS, etc. | `.transport(underlying:)` | Same as 5xx: persist the session, offer manual retry. |
-| Decoding error | Schema drift | `.decoding(underlying:)` | Log at `.error`. Persist the session without an insight. Do not retry; the schema fix is a code change. |
+| Network error / timeout | Offline, DNS, etc. | `.networkUnavailable(underlying:)` | Same as 5xx: persist the session, offer manual retry. |
+| Decoding error | Schema drift | `.decodingFailed(underlying:)` | Log at `.error`. Persist the session without an insight. Do not retry; the schema fix is a code change. |
 
-`ClaudeService.requestInsight(for:)` returns `Result<Insight, ClaudeServiceError>` — never throws past the service boundary.
+`ClaudeService.generateInsight(for:)` throws `ClaudeServiceError` cases. `.missingAPIKey` is distinct from `.invalidAPIKey` — the former means the user has not yet entered a key (no HTTP request was made), the latter means the key was rejected by the server.
 
 ## Storage rules
 
