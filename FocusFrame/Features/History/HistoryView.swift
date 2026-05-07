@@ -52,6 +52,10 @@ private struct SessionRow: View {
             HStack(spacing: Spacing.sm) {
                 Label("\(session.durationMinutes) min", systemImage: "timer")
                     .foregroundStyle(.focusAccent)
+                if session.distractionCount > 0 {
+                    Label("\(session.distractionCount)", systemImage: "exclamationmark.triangle")
+                        .foregroundStyle(.focusAccent)
+                }
                 Spacer()
                 Text(session.endedAt, format: .dateTime.day().month(.abbreviated).hour().minute())
                     .foregroundStyle(.white.opacity(0.6))

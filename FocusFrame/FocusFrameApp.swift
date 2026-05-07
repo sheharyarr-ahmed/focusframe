@@ -26,6 +26,7 @@ struct FocusFrameApp: App {
 }
 
 private struct RootContainer: View {
+    @Environment(\.scenePhase) private var scenePhase
     @State private var appState: AppState
 
     init(modelContext: ModelContext) {
@@ -36,5 +37,14 @@ private struct RootContainer: View {
         RootView()
             .environment(appState)
             .preferredColorScheme(.dark)
+            .onChange(of: scenePhase) { _, newPhase in
+                let mapped: DistractionDetector.Phase = switch newPhase {
+                case .active: .active
+                case .inactive: .inactive
+                case .background: .background
+                @unknown default: .inactive
+                }
+                appState.distractionDetector.handleScenePhaseChange(mapped)
+            }
     }
 }

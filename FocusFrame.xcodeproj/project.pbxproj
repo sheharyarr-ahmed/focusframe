@@ -6,19 +6,97 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		CE50B9D22FAD2E28001411EB /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE50B9D12FAD2E27001411EB /* WidgetKit.framework */; };
+		CE50B9D42FAD2E28001411EB /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE50B9D32FAD2E28001411EB /* SwiftUI.framework */; };
+		CE50B9E32FAD2E2C001411EB /* FocusFrameLiveActivityExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = CE50B9CF2FAD2E27001411EB /* FocusFrameLiveActivityExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		CE50B9E12FAD2E2C001411EB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CEA8D0E12FABF74C005E59F1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CE50B9CE2FAD2E27001411EB;
+			remoteInfo = FocusFrameLiveActivityExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		CE50B9E42FAD2E2C001411EB /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				CE50B9E32FAD2E2C001411EB /* FocusFrameLiveActivityExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		CE50B9CF2FAD2E27001411EB /* FocusFrameLiveActivityExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = FocusFrameLiveActivityExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE50B9D12FAD2E27001411EB /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		CE50B9D32FAD2E28001411EB /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		CEA8D0E92FABF74C005E59F1 /* FocusFrame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FocusFrame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		CE50B9E72FAD2E2C001411EB /* Exceptions for "FocusFrameLiveActivity" folder in "FocusFrameLiveActivityExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = CE50B9CE2FAD2E27001411EB /* FocusFrameLiveActivityExtension */;
+		};
+		CE50B9EF2FAD37AD001411EB /* Exceptions for "FocusFrameLiveActivity" folder in "FocusFrame" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				FocusSessionAttributes.swift,
+			);
+			target = CEA8D0E82FABF74C005E59F1 /* FocusFrame */;
+		};
+		CE50B9F12FAD3819001411EB /* Exceptions for "FocusFrame" folder in "FocusFrameLiveActivityExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Common/DesignTokens.swift,
+			);
+			target = CE50B9CE2FAD2E27001411EB /* FocusFrameLiveActivityExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		CE50B9D52FAD2E28001411EB /* FocusFrameLiveActivity */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				CE50B9EF2FAD37AD001411EB /* Exceptions for "FocusFrameLiveActivity" folder in "FocusFrame" target */,
+				CE50B9E72FAD2E2C001411EB /* Exceptions for "FocusFrameLiveActivity" folder in "FocusFrameLiveActivityExtension" target */,
+			);
+			path = FocusFrameLiveActivity;
+			sourceTree = "<group>";
+		};
 		CEA8D0EB2FABF74C005E59F1 /* FocusFrame */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				CE50B9F12FAD3819001411EB /* Exceptions for "FocusFrame" folder in "FocusFrameLiveActivityExtension" target */,
+			);
 			path = FocusFrame;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		CE50B9CC2FAD2E27001411EB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE50B9D42FAD2E28001411EB /* SwiftUI.framework in Frameworks */,
+				CE50B9D22FAD2E28001411EB /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CEA8D0E62FABF74C005E59F1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -29,10 +107,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CE50B9D02FAD2E27001411EB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CE50B9D12FAD2E27001411EB /* WidgetKit.framework */,
+				CE50B9D32FAD2E28001411EB /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		CEA8D0E02FABF74C005E59F1 = {
 			isa = PBXGroup;
 			children = (
 				CEA8D0EB2FABF74C005E59F1 /* FocusFrame */,
+				CE50B9D52FAD2E28001411EB /* FocusFrameLiveActivity */,
+				CE50B9D02FAD2E27001411EB /* Frameworks */,
 				CEA8D0EA2FABF74C005E59F1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +130,7 @@
 			isa = PBXGroup;
 			children = (
 				CEA8D0E92FABF74C005E59F1 /* FocusFrame.app */,
+				CE50B9CF2FAD2E27001411EB /* FocusFrameLiveActivityExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -48,6 +138,28 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		CE50B9CE2FAD2E27001411EB /* FocusFrameLiveActivityExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE50B9E82FAD2E2C001411EB /* Build configuration list for PBXNativeTarget "FocusFrameLiveActivityExtension" */;
+			buildPhases = (
+				CE50B9CB2FAD2E27001411EB /* Sources */,
+				CE50B9CC2FAD2E27001411EB /* Frameworks */,
+				CE50B9CD2FAD2E27001411EB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				CE50B9D52FAD2E28001411EB /* FocusFrameLiveActivity */,
+			);
+			name = FocusFrameLiveActivityExtension;
+			packageProductDependencies = (
+			);
+			productName = FocusFrameLiveActivityExtension;
+			productReference = CE50B9CF2FAD2E27001411EB /* FocusFrameLiveActivityExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		CEA8D0E82FABF74C005E59F1 /* FocusFrame */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = CEA8D0F62FABF74F005E59F1 /* Build configuration list for PBXNativeTarget "FocusFrame" */;
@@ -55,10 +167,12 @@
 				CEA8D0E52FABF74C005E59F1 /* Sources */,
 				CEA8D0E62FABF74C005E59F1 /* Frameworks */,
 				CEA8D0E72FABF74C005E59F1 /* Resources */,
+				CE50B9E42FAD2E2C001411EB /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				CE50B9E22FAD2E2C001411EB /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				CEA8D0EB2FABF74C005E59F1 /* FocusFrame */,
@@ -80,6 +194,9 @@
 				LastSwiftUpdateCheck = 2640;
 				LastUpgradeCheck = 2640;
 				TargetAttributes = {
+					CE50B9CE2FAD2E27001411EB = {
+						CreatedOnToolsVersion = 26.4;
+					};
 					CEA8D0E82FABF74C005E59F1 = {
 						CreatedOnToolsVersion = 26.4;
 					};
@@ -100,11 +217,19 @@
 			projectRoot = "";
 			targets = (
 				CEA8D0E82FABF74C005E59F1 /* FocusFrame */,
+				CE50B9CE2FAD2E27001411EB /* FocusFrameLiveActivityExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		CE50B9CD2FAD2E27001411EB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CEA8D0E72FABF74C005E59F1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -115,6 +240,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		CE50B9CB2FAD2E27001411EB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CEA8D0E52FABF74C005E59F1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -124,7 +256,77 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		CE50B9E22FAD2E2C001411EB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CE50B9CE2FAD2E27001411EB /* FocusFrameLiveActivityExtension */;
+			targetProxy = CE50B9E12FAD2E2C001411EB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		CE50B9E52FAD2E2C001411EB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = PQVWZQTC26;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FocusFrameLiveActivity/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = FocusFrameLiveActivity;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sheryahmed.focusframe.LiveActivity;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CE50B9E62FAD2E2C001411EB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = PQVWZQTC26;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FocusFrameLiveActivity/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = FocusFrameLiveActivity;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sheryahmed.focusframe.LiveActivity;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		CEA8D0F42FABF74F005E59F1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -251,11 +453,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = FocusFrame/FocusFrame.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = PQVWZQTC26;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
+				INFOPLIST_KEY_NSSupportsLiveActivitiesFrequentUpdates = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -283,11 +488,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = FocusFrame/FocusFrame.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = PQVWZQTC26;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
+				INFOPLIST_KEY_NSSupportsLiveActivitiesFrequentUpdates = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -313,6 +521,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		CE50B9E82FAD2E2C001411EB /* Build configuration list for PBXNativeTarget "FocusFrameLiveActivityExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE50B9E52FAD2E2C001411EB /* Debug */,
+				CE50B9E62FAD2E2C001411EB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		CEA8D0E42FABF74C005E59F1 /* Build configuration list for PBXProject "FocusFrame" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

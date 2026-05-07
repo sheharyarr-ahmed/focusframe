@@ -139,7 +139,7 @@ Schema reference: `agent_docs/data-models.md`.
 - Imports of the main app target — widget extensions cannot link the app target
 - Networking, persistence, business logic — the widget renders state passed in via `Activity.update(_:)`
 
-**Allowed imports:** `ActivityKit`, `WidgetKit`, `SwiftUI`, types shared via the App Group module if one is created.
+**Allowed imports:** `ActivityKit`, `WidgetKit`, `SwiftUI`. Shared types (`FocusSessionAttributes`, `DesignTokens`) live in their canonical files and are added to BOTH targets via Xcode File Inspector → Target Membership. No App Group in v1 (free-tier Apple Developer constraint — see CLAUDE.md).
 
 **Lifecycle ownership:** `Activity<FocusSessionAttributes>.request(...)`, `.update(...)`, `.end(...)` are called from `SessionManager` in the main app target. The widget itself is presentational.
 
