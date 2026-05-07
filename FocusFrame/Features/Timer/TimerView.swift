@@ -1,0 +1,83 @@
+import SwiftUI
+
+struct TimerView: View {
+    @Environment(AppState.self) private var state
+    @State private var goalDraft: String = ""
+
+    var body: some View {
+        NavigationStack {
+            ZStack {
+                Color.focusBackground.ignoresSafeArea()
+                content
+                    .padding(Spacing.lg)
+            }
+            .navigationTitle("Focus")
+            .navigationBarTitleDisplayMode(.inline)
+        }
+    }
+
+    @ViewBuilder
+    private var content: some View {
+        if let active = state.sessionManager.currentSession {
+            activeSessionView(active)
+        } else {
+            idleView
+        }
+    }
+
+    private var idleView: some View {
+        VStack(spacing: Spacing.xl) {
+            TextField(
+                "What are you focusing on?",
+                text: $goalDraft,
+                axis: .vertical
+            )
+            .textFieldStyle(.plain)
+            .font(.title3)
+            .lineLimit(3, reservesSpace: true)
+            .padding(Spacing.md)
+            .background(.white.opacity(0.05), in: .rect(cornerRadius: 12))
+            .foregroundStyle(.white)
+
+            Text("00:00")
+                .font(.system(size: 80, weight: .light, design: .rounded))
+                .monospacedDigit()
+                .foregroundStyle(.white.opacity(0.4))
+
+            Button("Start Session", systemImage: "play.fill") {
+                state.sessionManager.startSession(goalText: goalDraft)
+                goalDraft = ""
+            }
+            .buttonStyle(.borderedProminent)
+            .controlSize(.large)
+            .tint(.focusAccent)
+            .foregroundStyle(.black)
+            .disabled(goalDraft.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+
+            Spacer()
+        }
+    }
+
+    private func activeSessionView(_ active: ActiveSession) -> some View {
+        VStack(spacing: Spacing.xl) {
+            Text(active.goalText)
+                .font(.title3)
+                .foregroundStyle(.focusAccent)
+                .multilineTextAlignment(.center)
+                .lineLimit(3)
+
+            Text(timerInterval: active.startedAt...Date.distantFuture, countsDown: false)
+                .font(.system(size: 80, weight: .light, design: .rounded))
+                .monospacedDigit()
+                .foregroundStyle(.white)
+
+            Button("End Session", systemImage: "stop.fill", role: .destructive) {
+                state.sessionManager.endSession()
+            }
+            .buttonStyle(.borderedProminent)
+            .controlSize(.large)
+
+            Spacer()
+        }
+    }
+}
