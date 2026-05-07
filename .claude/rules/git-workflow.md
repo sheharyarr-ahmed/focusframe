@@ -21,9 +21,9 @@ If a hotfix or one-off is needed outside a sprint, create `fix/<short-descriptio
 <type>(<scope>): <imperative summary>
 
 <optional body explaining the why>
-
-<optional trailers>
 ```
+
+Commit messages should NOT include AI co-author trailers. The git author is Sheharyar Ahmed only. Do not append `Co-Authored-By: Claude …`, `Generated-By: …`, or any equivalent attribution line — neither in commit bodies nor in PR descriptions generated via `gh pr create`.
 
 ### Types
 

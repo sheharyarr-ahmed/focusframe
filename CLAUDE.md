@@ -15,7 +15,7 @@ Distraction detection v1: app foreground/background transitions via `ScenePhase`
 - **Xcode**: 26.4
 - **Frameworks**: SwiftUI 6, SwiftData, ActivityKit, Swift Charts, `os.Logger`
 - **Bundle ID**: `com.sheryahmed.focusframe`
-- **App Group** (for Live Activity shared state): `group.com.sheryahmed.focusframe`
+- **Widget Extension target**: `FocusFrameLiveActivityExtension` (bundle id `com.sheryahmed.focusframe.LiveActivity`, source folder `FocusFrameLiveActivity/`)
 - **Anthropic model**: `claude-sonnet-4-5`
 - **Simulator targets**: iPhone 17 Pro, iPhone 17 Pro Max
 - **Repo**: `github.com/sheharyarr-ahmed/focusframe`, default branch `main`
@@ -34,7 +34,7 @@ Views ──► State (@Observable AppState) ──► Services ──► Data M
 2. **Services** — `SessionManager`, `DistractionDetector`, `ClaudeService`, `KeychainService`. Pure Swift, no UI imports, fully unit-testable.
 3. **State** — single `@Observable AppState` owns service instances and exposes view-facing state. Views never instantiate services directly.
 4. **Views** — `RootView` (TabView), `TimerView`, `HistoryView`, `SessionDetailView`, `SettingsView`, plus reusable `LiveTimerLabel`.
-5. **Live Activity** — separate Widget Extension target (`FocusFrameLiveActivity`) with `FocusSessionAttributes` and `FocusSessionLiveActivity`. Shares state via App Group.
+5. **Live Activity** — separate Widget Extension target (`FocusFrameLiveActivityExtension`, source folder `FocusFrameLiveActivity/`) with `FocusSessionAttributes` and `FocusSessionLiveActivity`. State flows main-app → widget via ActivityKit's native `ContentState` IPC; no App Group in v1 (see Free-tier Apple Developer constraints below).
 
 Full rules and anti-patterns: `.claude/rules/architecture.md`.
 
@@ -99,13 +99,17 @@ gh pr create --base main --head sprint-N-<name> \
 
 Dark `#0F0F0F` background, mint `#6EE7B7` accent. Define as constants in `FocusFrame/Common/DesignTokens.swift`; do not hardcode hex literals in views. Follow Apple Human Interface Guidelines for tap targets, Dynamic Type, VoiceOver — `swiftui-pro/references/design.md` and `accessibility.md` are the source of truth.
 
+## Free-tier Apple Developer constraints
+
+App Groups capability is deferred until a paid Apple Developer Program membership is enabled. Apple rejected registration of the bundle id `com.sheryahmed.focusframe` for an App Group on the free tier (the id is globally claimed in Apple's developer database; only paid-tier accounts can resolve the conflict). ActivityKit's native `ContentState` IPC handles widget state passing for v1 — the widget extension reads `attributes` and `state` from `ActivityViewContext`, not from a shared container. **Do not introduce `UserDefaults(suiteName:)`, App Group file containers, or any `group.com.sheryahmed.focusframe` references in code or entitlements.** Re-evaluate when the paid tier is enabled and a stable bundle id is registered; at that point a new sprint should fold App Groups in for shared SwiftData / shared UserDefaults if needed.
+
 ## Sprint plan (reference)
 
 | Sprint | Branch | Scope |
 | --- | --- | --- |
 | 1 | `sprint-1-foundation` | Data models, `SessionManager`, `TimerView`, basic `HistoryView` |
 | 2 | `sprint-2-intelligence` | `KeychainService`, `ClaudeService`, `Insight` flow, `SettingsView` |
-| 3 | `sprint-3-live-activities` | Widget Extension, lock-screen + Dynamic Island, App Group plumbing |
+| 3 | `sprint-3-live-activities` | Widget Extension, lock-screen + Dynamic Island, distraction detector |
 | 4 | `sprint-4-polish` | Swift Charts trends, accessibility audit, performance pass, App Store assets |
 
 One PR per sprint into `main`. Pattern detail: `.claude/rules/git-workflow.md`.

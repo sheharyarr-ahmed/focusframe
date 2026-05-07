@@ -21,7 +21,7 @@ A layer may depend on layers to its right. Never the reverse.
 2. **Services** (`FocusFrame/Services/`) — `SessionManager`, `DistractionDetector`, `ClaudeService`, `KeychainService`. Pure Swift. **No SwiftUI, no UIKit, no view-tier types.** Any `import` of `SwiftUI` in a service file is a violation. Services own all SwiftData mutations (insert/update/delete) and all networking. Fully unit-testable in isolation.
 3. **State** (`FocusFrame/State/`) — one `@Observable AppState` class, `@MainActor`. Owns service instances (composition root). Exposes view-facing state. Views read from `AppState`; views never instantiate services.
 4. **Views** (`FocusFrame/Features/<Feature>/`) — `RootView`, `TimerView`, `HistoryView`, `SessionDetailView`, `SettingsView`, plus components like `LiveTimerLabel`. Views may use `@Query` for read-only SwiftData fetches; all writes go through services. Views never call `URLSession`, `Keychain`, or `Activity.request`.
-5. **Live Activity** (`FocusFrameLiveActivity/`) — separate Widget Extension target. Owns `FocusSessionAttributes`, `FocusSessionAttributes.ContentState`, and `FocusSessionLiveActivity` (the widget). Reads from the App Group `group.com.sheryahmed.focusframe`. Cannot import the main app target. Lifecycle (`Activity.request`, `Activity.update`, `Activity.end`) is driven by `SessionManager` in the main app, not by the widget itself.
+5. **Live Activity** (`FocusFrameLiveActivity/` source folder, target `FocusFrameLiveActivityExtension`) — separate Widget Extension target. Owns `FocusSessionAttributes`, `FocusSessionAttributes.ContentState`, and `FocusSessionLiveActivity` (the widget). Cannot import the main app target. State arrives via ActivityKit's native `ContentState` IPC (no App Group in v1; free-tier Apple Developer constraint — see CLAUDE.md). Shared types like `FocusSessionAttributes` and `DesignTokens` are added to BOTH targets via Xcode File Inspector → Target Membership. Lifecycle (`Activity.request`, `Activity.update`, `Activity.end`) is driven by `SessionManager` in the main app, not by the widget itself.
 
 ## Session state machine (load-bearing)
 
@@ -54,7 +54,7 @@ Authoritative reference: `agent_docs/claude-api-contract.md`. When a question to
 - Is there more than one top-level type declaration in this file? (Should be **no**, except for protocol + default-impl pairs.)
 - Is a SwiftData mutation (`modelContext.insert/delete`) happening outside a service? (Should be **no**.)
 - Is the API key reachable from any source file via `grep -r 'sk-ant'`? (Should be **zero hits**.)
-- Does the Live Activity target import the main app target? (Should be **no** — only `ActivityKit` and `WidgetKit` plus shared types via App Group.)
+- Does the Live Activity target import the main app target? (Should be **no** — only `ActivityKit`, `WidgetKit`, `SwiftUI` plus shared types added via Target Membership checkbox.)
 
 ## How to respond
 

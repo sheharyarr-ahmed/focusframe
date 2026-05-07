@@ -6,4 +6,6 @@ extension Logger {
     static let session = Logger(subsystem: subsystem, category: "session")
     static let claude = Logger(subsystem: subsystem, category: "claude")
     static let keychain = Logger(subsystem: subsystem, category: "keychain")
+    static let liveActivity = Logger(subsystem: subsystem, category: "liveactivity")
+    static let distraction = Logger(subsystem: subsystem, category: "distraction")
 }

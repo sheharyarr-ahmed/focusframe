@@ -1,16 +1,16 @@
 # Live Activity design
 
-Authoritative reference for the Widget Extension that renders FocusFrame on the lock screen and Dynamic Island. Implementation lives in the `FocusFrameLiveActivity` target; lifecycle is driven from `SessionManager` in the main app target.
+Authoritative reference for the Widget Extension that renders FocusFrame on the lock screen and Dynamic Island. Implementation lives in the `FocusFrameLiveActivityExtension` target (source folder `FocusFrameLiveActivity/`); lifecycle is driven from `SessionManager` in the main app target.
 
 ## Targets and entitlements
 
 - **Main app target**: `FocusFrame` (bundle id `com.sheryahmed.focusframe`)
-- **Widget Extension target**: `FocusFrameLiveActivity` (placeholder — confirm name via `xcodebuild -list` after Xcode bootstrap)
-- **App Group** (both targets): `group.com.sheryahmed.focusframe`
-- **Info.plist key on main app**: `NSSupportsLiveActivities = YES`
-- **Info.plist key on main app**: `NSSupportsLiveActivitiesFrequentUpdates = YES` (we update on each distraction event and once per minute for the timer; well within budget but the entitlement is required for the more frequent path)
+- **Widget Extension target**: `FocusFrameLiveActivityExtension` (bundle id `com.sheryahmed.focusframe.LiveActivity`, source folder `FocusFrameLiveActivity/`)
+- **App Group**: NOT used in v1. Free-tier Apple Developer account cannot register the App Groups capability for `com.sheryahmed.focusframe` (the bundle id is globally claimed). All widget state flows through ActivityKit's native `ContentState` IPC — the widget extension reads `attributes` and `state` from `ActivityViewContext<FocusSessionAttributes>`, not from a shared container. Do not introduce `UserDefaults(suiteName:)` or App Group file paths. Revisit when paid tier is enabled (see CLAUDE.md "Free-tier Apple Developer constraints").
+- **Build setting on main app target**: `INFOPLIST_KEY_NSSupportsLiveActivities = YES`
+- **Build setting on main app target**: `INFOPLIST_KEY_NSSupportsLiveActivitiesFrequentUpdates = YES` (distraction events trigger near-instant updates; this entitlement avoids throttling)
 
-The widget extension cannot import the main app target. Any types shared between the two (notably `FocusSessionAttributes`) live in files that are added to **both** target memberships, not in a separate framework — the data shape is small and a framework target is over-engineering for v1.
+The widget extension cannot import the main app target. Any types shared between the two (notably `FocusSessionAttributes` and `DesignTokens`) live in files that are added to **both** target memberships via Xcode's File Inspector → Target Membership checkbox. Synchronized folder groups (Xcode 16+) record this as a `membershipExceptions` entry in pbxproj automatically. No separate framework target — the data shape is small and a framework target is over-engineering for v1.
 
 ## `FocusSessionAttributes`
 
