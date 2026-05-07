@@ -12,6 +12,9 @@ struct HistoryView: View {
                 content
             }
             .navigationTitle("History")
+            .navigationDestination(for: Session.self) { session in
+                SessionDetailView(session: session)
+            }
         }
     }
 
@@ -26,8 +29,10 @@ struct HistoryView: View {
             .foregroundStyle(.white.opacity(0.7))
         } else {
             List(sessions) { session in
-                SessionRow(session: session)
-                    .listRowBackground(Color.white.opacity(0.05))
+                NavigationLink(value: session) {
+                    SessionRow(session: session)
+                }
+                .listRowBackground(Color.white.opacity(0.05))
             }
             .scrollContentBackground(.hidden)
         }

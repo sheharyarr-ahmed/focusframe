@@ -110,31 +110,45 @@ import SwiftData
 final class Insight {
     @Attribute(.unique) var id: UUID
     var sessionID: UUID            // FK to Session.id
-    var text: String               // the 2–3 sentence Claude response
+    var text: String               // the 2–3 sentence Claude response (empty while pending)
     var model: String              // "claude-sonnet-4-5" — denormalized for future model migrations
     var generatedAt: Date
+    var status: String             // "pending" | "succeeded" | "failed" — see Status enum below
 
     init(
         id: UUID = UUID(),
         sessionID: UUID,
-        text: String,
+        text: String = "",
         model: String,
-        generatedAt: Date = .now
+        generatedAt: Date = .now,
+        status: String = "pending"
     ) {
         self.id = id
         self.sessionID = sessionID
         self.text = text
         self.model = model
         self.generatedAt = generatedAt
+        self.status = status
     }
+}
+
+extension Insight {
+    enum Status: String {
+        case pending, succeeded, failed
+    }
+    var statusEnum: Status { Status(rawValue: status) ?? .pending }
 }
 ```
 
 **Lifecycle:**
 
-- Inserted by `ClaudeService` (or by `SessionManager` after delegating to `ClaudeService`) only after a 200 OK response with a parseable body.
-- A `Session` may exist without an `Insight` (API failure, offline, missing key). UI handles this state.
+- Inserted by `SessionManager.fireInsight(for:)` immediately after a `Session` is persisted — initially with `status = "pending"` and empty `text`.
+- Updated to `status = "succeeded"` with populated `text` when `ClaudeService.generateInsight(for:)` returns successfully.
+- Updated to `status = "failed"` when `ClaudeService.generateInsight(for:)` throws. The row remains so the UI can surface a Retry affordance.
+- A `Session` may exist without an `Insight` only if the app is force-killed between session save and the pending Insight insert — extremely narrow window, treated like a permanent missing-insight state in the UI.
 - Deleted by cascade when its parent `Session` is deleted (manual cascade — no SwiftData relationship machinery).
+
+**Status field rationale:** A persisted `status` makes Insight rows the single source of truth for generation state — the UI can render pending/succeeded/failed identically across launches, and Retry can target failed rows directly. `String` storage (not raw enum) sidesteps SwiftData's enum-attribute quirks; the `Status` enum extension gives callers a typed read API.
 
 ## Query patterns
 
