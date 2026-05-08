@@ -1,7 +1,9 @@
+import Charts
 import SwiftData
 import SwiftUI
 
 struct HistoryView: View {
+    @Environment(AppState.self) private var state
     @Query(sort: \Session.endedAt, order: .reverse)
     private var sessions: [Session]
 
@@ -28,13 +30,21 @@ struct HistoryView: View {
             )
             .foregroundStyle(.white.opacity(0.7))
         } else {
-            List(sessions) { session in
-                NavigationLink(value: session) {
-                    SessionRow(session: session)
+            VStack(spacing: Spacing.md) {
+                WeeklyTrendChart(sessions: sessions)
+                List(sessions) { session in
+                    NavigationLink(value: session) {
+                        SessionRow(session: session)
+                    }
+                    .listRowBackground(Color.white.opacity(0.05))
+                    .swipeActions(edge: .trailing) {
+                        Button("Delete", systemImage: "trash", role: .destructive) {
+                            state.sessionManager.deleteSession(session)
+                        }
+                    }
                 }
-                .listRowBackground(Color.white.opacity(0.05))
+                .scrollContentBackground(.hidden)
             }
-            .scrollContentBackground(.hidden)
         }
     }
 }
@@ -55,6 +65,7 @@ private struct SessionRow: View {
                 if session.distractionCount > 0 {
                     Label("\(session.distractionCount)", systemImage: "exclamationmark.triangle")
                         .foregroundStyle(.focusAccent)
+                        .accessibilityLabel("\(session.distractionCount) distractions")
                 }
                 Spacer()
                 Text(session.endedAt, format: .dateTime.day().month(.abbreviated).hour().minute())
@@ -63,5 +74,6 @@ private struct SessionRow: View {
             .font(.caption)
         }
         .padding(.vertical, Spacing.xs)
+        .accessibilityElement(children: .combine)
     }
 }

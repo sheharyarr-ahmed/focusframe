@@ -60,14 +60,18 @@ struct SettingsView: View {
                 .textContentType(.password)
                 .autocorrectionDisabled()
                 .textInputAutocapitalization(.never)
+                .accessibilityLabel("Anthropic API key")
+                .accessibilityHint("Enter your API key from console.anthropic.com")
 
             Button("Save key") { saveKey() }
                 .disabled(trimmedKey.isEmpty)
+                .accessibilityHint("Saves your API key to the device keychain")
 
             if isKeyConfigured {
                 Button("Clear saved key", role: .destructive) {
                     showClearConfirmation = true
                 }
+                .accessibilityHint("Removes the saved API key after confirmation")
             }
         }
     }
@@ -86,6 +90,8 @@ struct SettingsView: View {
                 }
             }
             .disabled(!isKeyConfigured || isTestingConnection)
+            .accessibilityLabel("Test connection")
+            .accessibilityHint("Sends a small request to Anthropic to verify your key works")
         }
     }
 
