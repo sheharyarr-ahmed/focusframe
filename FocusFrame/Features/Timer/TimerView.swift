@@ -22,6 +22,7 @@ struct TimerView: View {
                         Image(systemName: "gear")
                     }
                     .accessibilityLabel("Settings")
+                    .accessibilityHint("Opens app settings")
                 }
             }
             .sheet(isPresented: $isShowingSettings) {
@@ -57,6 +58,7 @@ struct TimerView: View {
                 .font(.system(size: 80, weight: .light, design: .rounded))
                 .monospacedDigit()
                 .foregroundStyle(.white.opacity(0.4))
+                .accessibilityHidden(true)
 
             Button("Start Session", systemImage: "play.fill") {
                 state.sessionManager.startSession(goalText: goalDraft)
@@ -67,6 +69,7 @@ struct TimerView: View {
             .tint(.focusAccent)
             .foregroundStyle(.black)
             .disabled(goalDraft.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+            .accessibilityHint("Begins a new focus session")
 
             Spacer()
         }
@@ -80,16 +83,22 @@ struct TimerView: View {
                 .multilineTextAlignment(.center)
                 .lineLimit(3)
 
-            Text(timerInterval: active.startedAt...Date.distantFuture, countsDown: false)
-                .font(.system(size: 80, weight: .light, design: .rounded))
-                .monospacedDigit()
-                .foregroundStyle(.white)
+            TimelineView(.periodic(from: active.startedAt, by: 1)) { context in
+                let elapsed = max(0, Int(context.date.timeIntervalSince(active.startedAt)))
+                Text(timerInterval: active.startedAt...Date.distantFuture, countsDown: false)
+                    .font(.system(size: 80, weight: .light, design: .rounded))
+                    .monospacedDigit()
+                    .foregroundStyle(.white)
+                    .accessibilityLabel("Elapsed time")
+                    .accessibilityValue("\(elapsed) seconds")
+            }
 
             Button("End Session", systemImage: "stop.fill", role: .destructive) {
                 state.sessionManager.endSession()
             }
             .buttonStyle(.borderedProminent)
             .controlSize(.large)
+            .accessibilityHint("Ends and saves the current session")
 
             Spacer()
         }

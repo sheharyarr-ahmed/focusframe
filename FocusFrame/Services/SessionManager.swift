@@ -108,6 +108,32 @@ final class SessionManager {
         }
     }
 
+    func deleteSession(_ session: Session) {
+        let sessionID = session.id
+        let logGoal = session.goalText
+
+        if let active = currentSession, active.sessionID == sessionID {
+            Task { [weak self] in
+                await self?.endLiveActivity(distractionCount: 0, elapsedSeconds: 0)
+            }
+            currentSession = nil
+            distractionDetector.sessionEnded()
+        }
+
+        var descriptor = FetchDescriptor<Insight>(
+            predicate: #Predicate { $0.sessionID == sessionID }
+        )
+        descriptor.fetchLimit = 1
+        if let insight = try? modelContext.fetch(descriptor).first {
+            modelContext.delete(insight)
+        }
+
+        modelContext.delete(session)
+        try? modelContext.save()
+
+        Logger.session.info("session deleted id=\(sessionID, privacy: .public) goal=\(logGoal, privacy: .public)")
+    }
+
     func handleDistractionUpdate() {
         Task { [weak self] in
             await self?.pushLiveActivityUpdate()

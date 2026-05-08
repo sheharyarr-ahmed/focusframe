@@ -50,12 +50,14 @@ struct SessionDetailView: View {
         HStack(spacing: Spacing.md) {
             Label("\(session.durationMinutes) min", systemImage: "timer")
             Label("\(session.distractionCount)", systemImage: "exclamationmark.triangle")
+                .accessibilityLabel("\(session.distractionCount) distractions")
             Spacer()
             Text(session.endedAt, format: .dateTime.day().month(.abbreviated).hour().minute())
                 .foregroundStyle(.white.opacity(0.6))
         }
         .font(.caption)
         .foregroundStyle(.focusAccent)
+        .accessibilityElement(children: .combine)
     }
 
     @ViewBuilder
@@ -87,6 +89,7 @@ struct SessionDetailView: View {
                     .buttonStyle(.borderedProminent)
                     .tint(.focusAccent)
                     .foregroundStyle(.black)
+                    .accessibilityHint("Tries to generate the insight again")
                 }
             }
         }
